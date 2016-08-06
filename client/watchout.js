@@ -1,4 +1,16 @@
 // start slingin' some d3 here.
+var gameOptions = {
+  height: 450,
+  width: 700,
+  nEnemies: 30,
+  padding: 20
+};
+
+var gameStats = {
+  score: 0,
+  bestScore: 0
+};
+
 var svgContainer = d3.select('body').append('svg')
   .attr('width', 200)
   .attr('height', 200);
