@@ -2,7 +2,7 @@
 var gameOptions = {
   height: 450,
   width: 700,
-  nEnemies: 30,
+  nEnemies: 20, // testing
   padding: 20
 };
 
@@ -31,6 +31,7 @@ var player = function() {
   this.r = 5;
 }; 
 
+
 var createEnemies = function() {
   var results = []; 
   for (var i = 0; i < gameOptions.nEnemies; i++) {
@@ -57,13 +58,64 @@ var render = function(enemyData) {
     return axes.y(enemy.y);
   })
   .attr('r', 15)
-  .style('fill', 'black');
+  .style('fill', 'black')
+  .transition().duration(2000);
 
   enemies.exit().remove(); 
+
 }; 
 
+var createEnemyPositions = function() {
 
-render(createEnemies()); 
+  var xVal = Math.random() * 100;
+  var yVal = Math.random() * 100;
+};
+
+var postRender = function(enemyData) {
+  var enemies = gameBoard.selectAll('circle.enemy')
+  .data(enemyData, function(d) { return d.id; }); 
+
+  enemies
+  .attr('class', 'enemy').transition().duration(2000)
+  .attr('cx', function(enemy) {
+    return axes.x(enemy.x);
+  })
+  .attr('cy', function(enemy) {
+    return axes.y(enemy.y);
+  })
+  .attr('r', 15)
+  .style('fill', 'black');
+  
+
+  enemies.exit().remove(); 
+
+}; 
+
+render(createEnemies());
+
+
+setInterval(function() {
+  postRender(createEnemies());
+}, 1000); 
+
+// var alertt = function() {
+//   // console.log('in');
+//   var enemies;
+//   setInterval(function() {
+//     // render(createEnemies());
+//     // call createEnemies to get new positions
+//     // enemies = createEnemies();
+//     // console.log(enemies);
+//     // render(enemies);
+//     // call render with new positions
+//   }, 3000);
+// };
+// alertt();
+
+// var newEnemies = render(createEnemies()); 
+// newEnemies(); 
+// setInterval(newEnemies, 1000);
+
 
 var svgContainer = d3.select('body').append('svg')
   .attr('width', 200)
