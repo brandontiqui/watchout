@@ -132,28 +132,52 @@ setInterval(function() {
 // setInterval(newEnemies, 1000);
 
 
-var svgContainer = d3.select('body').append('svg')
-  .attr('width', 1000)
-  .attr('height', 1000);
+// var svgContainer = d3.select('body').append('svg')
+//   .attr('width', 1000)
+//   .attr('height', 1000);
 
 // //Draw the Circle
 
-var circle = svgContainer.append('circle')
+var circle = gameBoard.selectAll('circle.player')
   // .attr('cx', x)
   // .attr('cy', y)
   .data([ {'x': 100, 'y': 100} ])
+  .enter()
+  .append('svg:circle') // try
   .attr('transform', 'translate(' + x + ',' + y + ')')
   .attr('r', 20)
   .style('fill', 'blue')
   .call(drag);
 
 
-d3.select('body')
-  .selectAll('svg')
-  .data(data)
-  .enter()
-  .append('svg')
-  .text(function(d) { return d; });
+//   var render = function(enemyData) {
+//   var enemies = gameBoard.selectAll('circle.enemy')
+//   .data(enemyData, function(d) { return d.id; }); 
+
+//   enemies.enter()
+//   .append('svg:circle')
+//   .attr('class', 'enemy')
+//   .attr('cx', function(enemy) {
+//     return axes.x(enemy.x);
+//   })
+//   .attr('cy', function(enemy) {
+//     return axes.y(enemy.y);
+//   })
+//   .attr('r', 15)
+//   .style('fill', 'black')
+//   .transition().duration(2000);
+
+//   enemies.exit().remove(); 
+
+// }; 
+
+
+// d3.select('body')
+//   .selectAll('svg')
+//   .data(data)
+//   .enter()
+//   .append('svg')
+//   .text(function(d) { return d; });
 
 
 
