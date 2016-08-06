@@ -2,7 +2,7 @@
 var gameOptions = {
   height: 450,
   width: 700,
-  nEnemies: 30, // testing
+  nEnemies: 10, // testing
   padding: 20
 };
 
@@ -34,14 +34,23 @@ var player = function() {
 // init circle position
  
 
+// var drag = d3.behavior.drag()
+// .on('drag', function(d, i) {
+//   d.x += d3.event.dx;
+//   d.y += d3.event.dy;
+//   d3.select(this).attr('transform', function(d, i) {
+//     return 'translate(' + [ d.x, d.y ] + ')'; 
+//   });
+// });
+
 var drag = d3.behavior.drag()
-.on('drag', function(d, i) {
-  d.x += d3.event.dx;
-  d.y += d3.event.dy;
-  d3.select(this).attr('transform', function(d, i) {
-    return 'translate(' + [ d.x, d.y ] + ')'; 
-  });
-});
+.on('drag', dragmove);
+
+function dragmove(d) {
+  d3.select(this)
+  .attr('cx', d.x = Math.max(20, Math.min(gameOptions.width - 20, d3.event.x)))
+  .attr('cy', d.y = Math.max(20, Math.min(gameOptions.height - 20, d3.event.y)));
+};
 
 // var drag = d3.behavior.drag();
 
@@ -115,12 +124,13 @@ setInterval(function() {
 var x = 100; 
 var y = 20;
 var circle = gameBoard.selectAll('circle.player')
-  // .attr('cx', x)
-  // .attr('cy', y)
   .data([ {'x': x, 'y': y} ])
   .enter()
   .append('svg:circle') // try
-  .attr('transform', 'translate(' + x + ',' + y + ')')
+  // .attr('transform', 'translate(' + x + ',' + y + ')')
+  .attr('class', 'player')
   .attr('r', 20)
+  .attr('cx', function(d) { return d.x; })
+  .attr('cy', function(d) { return d.y; })
   .style('fill', 'blue')
   .call(drag);
