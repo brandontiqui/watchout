@@ -2,7 +2,7 @@
 var gameOptions = {
   height: 450,
   width: 700,
-  nEnemies: 20, // testing
+  nEnemies: 12, // testing
   padding: 20
 };
 
@@ -31,6 +31,20 @@ var player = function() {
   this.r = 5;
 }; 
 
+// init circle position
+var x = 100; 
+var y = 20; 
+
+var drag = d3.behavior.drag()
+.on('drag', function(d, i) {
+  d.x += d3.event.dx;
+  d.y += d3.event.dy;
+  d3.select(this).attr('transform', function(d, i) {
+    return 'translate(' + [ d.x, d.y ] + ')'; 
+  });
+});
+
+// var drag = d3.behavior.drag();
 
 var createEnemies = function() {
   var results = []; 
@@ -84,7 +98,8 @@ var postRender = function(enemyData) {
     return axes.y(enemy.y);
   })
   .attr('r', 15)
-  .style('fill', 'black');
+  .style('fill', 'black')
+  .call(drag);
   
 
   enemies.exit().remove(); 
@@ -96,7 +111,7 @@ render(createEnemies());
 
 setInterval(function() {
   postRender(createEnemies());
-}, 1000); 
+}, 2000); 
 
 // var alertt = function() {
 //   // console.log('in');
@@ -118,25 +133,27 @@ setInterval(function() {
 
 
 var svgContainer = d3.select('body').append('svg')
-  .attr('width', 200)
-  .attr('height', 200);
+  .attr('width', 1000)
+  .attr('height', 1000);
 
-//Draw the Circle
+// //Draw the Circle
+
 var circle = svgContainer.append('circle')
-  .attr('cx', 30)
-  .attr('cy', 30)
+  // .attr('cx', x)
+  // .attr('cy', y)
+  .data([ {'x': 100, 'y': 100} ])
+  .attr('transform', 'translate(' + x + ',' + y + ')')
   .attr('r', 20)
-  .style('fill', 'blue');
+  .style('fill', 'blue')
+  .call(drag);
 
-var data = [svgContainer, svgContainer, svgContainer]; 
 
-
-// d3.select('body')
-//   .selectAll('svg')
-//   .data(data)
-//   .enter()
-//   .append('svg')
-//   .text(function(d) { return d; });
+d3.select('body')
+  .selectAll('svg')
+  .data(data)
+  .enter()
+  .append('svg')
+  .text(function(d) { return d; });
 
 
 
