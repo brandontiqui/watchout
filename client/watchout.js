@@ -45,7 +45,7 @@ var createEnemies = function() {
 
 var render = function(enemyData) {
   var enemies = gameBoard.selectAll('circle.enemy')
-  .data(enemy_data, function(d) { return d.id; }); 
+  .data(enemyData, function(d) { return d.id; }); 
 
   enemies.enter()
   .append('svg:circle')
